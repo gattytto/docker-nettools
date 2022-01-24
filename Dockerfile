@@ -9,7 +9,8 @@ RUN apk add --no-cache --update \
         bash \
         git \
         flex \
-        bison
+        bison \
+        bash
 
 RUN git clone git://github.com/netsniff-ng/netsniff-ng.git
 
