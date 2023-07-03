@@ -1,34 +1,4 @@
-FROM alpine:3.15 as builder
-
-WORKDIR /workspace
-
-RUN apk add --no-cache --update \
-        linux-headers \
-        alpine-sdk \
-        coreutils \
-        bash \
-        git \
-        flex \
-        bison \
-        bash
-
-RUN git clone git://github.com/netsniff-ng/netsniff-ng.git
-
-WORKDIR /workspace/netsniff-ng
-RUN git checkout v0.6.7
-
-RUN ./configure && make && mkdir /usr/local/sbin && make install
-
-FROM alpine:3.15
-
-LABEL org.label-schema.description="Useful network related tools"
-LABEL org.label-schema.vendor=travelping.com
-LABEL org.label-schema.copyright=travelping.com
-LABEL org.label-schema.version=1.11.0
-
-COPY --from=builder /usr/local/sbin/bpfc /usr/local/sbin/bpfc
-COPY --from=builder /usr/local/sbin/netsniff-ng /usr/local/sbin/netsniff-ng
-COPY --from=builder /usr/local/sbin/trafgen /usr/local/sbin/trafgen
+FROM alpine
 
 RUN apk add --no-cache --update \
         bash \
@@ -48,4 +18,5 @@ RUN apk add --no-cache --update \
         ethtool \
         mtr \
         tcpdump \
-        busybox-extras
+        busybox-extras \
+        bind-tools 
