@@ -1,4 +1,4 @@
-FROM alpine
+FROM alpine as final
 
 RUN apk add --no-cache --update \
         bash \
